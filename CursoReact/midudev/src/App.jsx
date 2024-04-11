@@ -1,4 +1,5 @@
 import { useState } from "react"
+
 const TURNS ={
   X: '❌',
   O: '⭕'
@@ -61,6 +62,12 @@ function App(){
     setWinner(null)
   } 
 
+  const checkEnGame = (newBoard) =>{
+
+
+    return newBoard.every((square) => square !== null)
+  }
+
   const updateBoard = (index) =>{
     //no actualizamos esta posición si ya tiene algo
     if(board[index] || winner ) return
@@ -74,12 +81,16 @@ function App(){
     const newWinner = checkWinner(newBoard)
       if(newWinner){
         setWinner(newWinner)
-        alert(`El ganador es ${newWinner}`)
+        
+      } else if (checkEnGame(newBoard))
+      {
+        setWinner(false) // empate
       }
     }
   return(
     <main className="board">
       <h1>Tic Tac Toe</h1>
+      <button onClick={resetGame}>Empezar de nuevo</button>
       <section className="game">
         {
         board.map((_, index) => 
