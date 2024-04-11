@@ -19,6 +19,7 @@ const Square = ({children, isSelected, updateBoard, index}) =>
     </div>
   )
 }
+// se gana cuando tienes estas condiciones:
 const WINNER_COMBOS = [ 
   [0, 1, 2],
   [3, 4, 5],
@@ -53,6 +54,13 @@ function App(){
     return null
   }
 
+  const resetGame = () =>{ 
+
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
+  } 
+
   const updateBoard = (index) =>{
     //no actualizamos esta posición si ya tiene algo
     if(board[index] || winner ) return
@@ -74,7 +82,8 @@ function App(){
       <h1>Tic Tac Toe</h1>
       <section className="game">
         {
-        board.map((_, index) => {
+        board.map((_, index) => 
+          {
             return (
               <Square 
                 key={index}
@@ -97,6 +106,33 @@ function App(){
         </Square>
       </section>
       
+      
+      {
+        winner !== null && (
+          <section className="winner">
+            <div className="text">
+              <h2>
+                {
+                  winner === false
+                  ? 'Empate'
+                  : 'Gano:' 
+                }
+              </h2>
+              <header className="win">
+                {winner && <Square>{winner}</Square>}
+              </header>
+              <footer>
+              <button onClick={resetGame}>Empezar de nuevo</button>
+              </footer>
+            </div>
+          </section>
+        )
+      }
+        
+      
+      
+
+
     </main>
   )
 }
